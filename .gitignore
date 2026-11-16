@@ -1,0 +1,6 @@
+__pycache__/
+.venv/
+venv/
+*.pyc
+cats_dogs/
+my_cat.jpg*
