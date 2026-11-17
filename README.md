@@ -1,89 +1,108 @@
-# Cat and Dog Image Classification using CNN and PyTorch
+# Cats vs Dogs Image Classification using PyTorch
 
 ## Project Overview
-This project uses a Convolutional Neural Network (CNN) built with PyTorch to classify images into two categories: cats and dogs.
 
-The model learns visual patterns from labelled training images and predicts the class of new, unseen images.
+This project explores image classification using PyTorch and Convolutional Neural Networks (CNNs). The goal is to classify images as either cats or dogs.
+
+I implemented and compared three approaches:
+
+1. **Custom CNN:** Built and trained a convolutional neural network from scratch.
+2. **Transfer Learning – Feature Extraction:** Used a pretrained ResNet18 model and trained a new classification layer.
+3. **Transfer Learning – Fine-Tuning:** Unfroze the final ResNet18 convolutional block (`layer4`) and fine-tuned it along with the new classification layer.
 
 ## Technologies Used
+
 - Python
 - PyTorch
 - Torchvision
-- Pillow
+- CNNs
+- ResNet18
+- Transfer Learning
+- TensorBoard
 
-## Dataset
-- 1,000 training images
-- 400 testing images
-- Two classes: Cat and Dog
-- Images resized to 64 × 64 pixels
+## Project Structure
 
-## CNN Architecture
-The model consists of:
+```text
+CNN_Project/
+│
+├── train_cnn.py
+├── predict_image.py
+├── transfer_learning.py
+├── predict_transfer.py
+├── fine_tuning.py
+├── tensorboard_demo.py
+│
+├── cats_dogs/
+│   ├── train/
+│   │   ├── cat/
+│   │   └── dog/
+│   └── test/
+│       ├── cat/
+│       └── dog/
+│
+└── .gitignore
+```
 
-1. Convolutional layer with 16 filters
-2. ReLU activation
-3. Max pooling
-4. Convolutional layer with 32 filters
-5. ReLU activation
-6. Max pooling
-7. Flatten layer
-8. Fully connected layer with 64 neurons
-9. Output layer with 2 classes
+The dataset and trained model files are not included in this repository.
 
-## Model Training
-- Optimizer: Adam
-- Learning rate: 0.001
-- Loss function: Cross Entropy Loss
-- Epochs: 15
-- Batch size: 16
+## Model 1: Custom CNN
 
-## Data Augmentation
-Random horizontal flipping was applied to training images to introduce image variation and help the model generalize to unseen images.
+- Built a CNN using convolutional, ReLU and max-pooling layers.
+- Trained the model using the cats-and-dogs dataset.
+- Applied data augmentation using random horizontal flipping.
+- Achieved approximately **71.75% test accuracy** in the improved run.
 
-Testing images were not augmented.
+## Model 2: ResNet18 – Feature Extraction
 
-## Results
-- Test accuracy: **71.75%**
-- Correct predictions: 287 out of 400 test images
+- Used pretrained ResNet18 weights.
+- Froze the pretrained convolutional layers.
+- Replaced the final fully connected layer with a two-class classifier.
+- Trained only the new classification layer.
+- Achieved **99.50% test accuracy** in the recorded run.
 
-The trained model was also tested on a separate cat photograph and correctly classified it as a cat, with a predicted confidence of approximately 82.27%.
+## Model 3: ResNet18 – Fine-Tuning
 
-## Project Files
-- `train_cnn.py` – Loads the dataset, builds and trains the CNN, evaluates it and saves the trained weights.
-- `predict_image.py` – Loads the saved model and predicts the class of a new image.
-- `organise_images.py` – Organises the downloaded images into class folders.
-- `cat_dog_cnn.pth` – Saved model weights.
-- `requirements.txt` – Required Python libraries.
+- Started with pretrained ResNet18 weights.
+- Unfroze the final convolutional block (`layer4`).
+- Trained `layer4` and the new fully connected classification layer.
+- Used different learning rates for the pretrained and newly added layers.
+- Monitored training loss and accuracy using TensorBoard.
 
-## How to Run
+The recorded fine-tuning run achieved **98.75% test accuracy**.
 
-1. Install the required libraries:
+These results are from individual runs and may vary between training sessions.
 
-   `pip install -r requirements.txt`
+## TensorBoard
 
-2. Download and organise the dataset into the expected folder structure.
+TensorBoard was used to monitor the training process.
 
-3. Train the model:
+The logged metrics include:
+- Training Loss
+- Training Accuracy
 
-   `python train_cnn.py`
+To launch TensorBoard:
 
-4. Place a test photograph in the project folder and update the image path in `predict_image.py`.
+```bash
+tensorboard --logdir=runs
+```
 
-5. Run the prediction:
+Then open `http://localhost:6006` in your browser.
 
-   `python predict_image.py`
+## Key Learnings
 
-## Key Learning Outcomes
-- Understanding image tensors and RGB channels
-- Building a CNN using `nn.Conv2d` and `nn.MaxPool2d`
-- Training a neural network using backpropagation and an optimizer
-- Evaluating model performance on unseen test data
-- Applying data augmentation
-- Saving and loading model weights using `state_dict()`
-- Making predictions on new images
+Through this project, I practised:
+
+- Building CNN architectures using PyTorch.
+- Understanding convolution, pooling and feature maps.
+- Working with datasets and DataLoaders.
+- Training and evaluating deep learning models.
+- Applying transfer learning and fine-tuning.
+- Saving and loading model weights using `state_dict`.
+- Using TensorBoard to visualise training metrics.
 
 ## Future Improvements
-- Experiment with additional data augmentation techniques
-- Increase the size and diversity of the dataset
-- Explore deeper CNN architectures
-- Compare performance with transfer learning models
+
+- Experiment with different CNN architectures.
+- Explore additional data augmentation techniques.
+- Compare model performance across repeated runs.
+- Explore NLP and text classification using machine learning.
